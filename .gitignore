@@ -1,4 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+.env
+/prisma/migrations
+
 
 # dependencies
 /node_modules
@@ -21,6 +24,7 @@
 
 # debug
 npm-debug.log*
+pnpm-lock.yaml
 yarn-debug.log*
 yarn-error.log*
 

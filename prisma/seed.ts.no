@@ -1,0 +1,92 @@
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
+async function main() {
+  const primeGateway = await prisma.gateways.upsert({
+    where: {
+      id: -1,
+    },
+    update: {},
+    create: {
+      id: -1,
+      serial: "Serial 1",
+      name: "Gateway 1",
+      ipv4: "192.168.0.1",
+      PheripheralDev: {
+        create: [
+          {
+            uid: 1,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 2,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 3,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 4,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 5,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 6,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 7,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 8,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 9,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+          {
+            uid: 10,
+            vendor: "Vendor 1",
+            createDate: "2023-08-18T00:00:00.000Z",
+            status: "ONLINE",
+          },
+        ],
+      },
+    },
+  });
+  return primeGateway
+}
+
+main()
+  .then(async () => {
+    await prisma.$disconnect();
+  })
+  .catch(async (e) => {
+    console.error(e);
+    await prisma.$disconnect();
+    process.exit(1);
+  });

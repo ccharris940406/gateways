@@ -1,8 +1,33 @@
+# Gateways
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
 
-First, run the development server:
+### Database conection
+
+It use PostgresSQl database
+
+```bash
+npx prisma migrate dev
+
+```
+
+### Testing
+
+Run tests
+
+```bash
+npm run test
+or
+yarn test
+or
+pnpm test
+```
+
+### Run
+
+Run the development server:
 
 ```bash
 npm run dev
@@ -14,21 +39,54 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Introduction
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This sample project is managing gateways - master devices that control multiple peripheral devices.
 
-## Learn More
+## Task description
 
-To learn more about Next.js, take a look at the following resources:
+Your task is to create a REST service (JSON/HTTP) for storing information about these gateways and their associated devices. This information must be stored in the database.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+A **Gateway** has:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- unique serial number (string);
+- human-readable name (string);
+- IPv4 address (to be validated);
+- multiple associated peripheral devices;
 
-## Deploy on Vercel
+Each **Peripheral Device** has:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- UID (number);
+- vendor (string);
+- date created;
+- status (online/offline).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+When storing a gateway, any field marked as “to be validated” must be validated and an error returned if it is invalid. Also, no more that 10 peripheral devices are allowed for a gateway.
+
+The service should allow:
+
+- storing a new gateway;
+- displaying information about all stored gateways (and their devices);
+- displaying details about a single gateway;
+- adding and removing a peripheral device from a gateway;
+
+> Feel free to make assumptions for the design approach.
+
+## Requirements
+
+While implementing your solution **please take care of the following requirements**:
+
+### Functional requirements
+
+- There is no need for UI;
+- Prevent the gateway from receiving more than 10 peripheral devices;
+
+---
+
+### Non-functional requirements
+
+- Input/output data must be in JSON format;
+- Your project must be buildable and runnable;
+- Your project must have a README file with build/run/test instructions (use DB that can be run locally, e.g. in-memory, via container);
+- Unit tests;
+- Use a framework of your choice, but popular, up-to-date, and long-term support versions are recommended.

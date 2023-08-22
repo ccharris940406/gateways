@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model PheripheralDev {
+  id         Int                  @id @default(autoincrement())
+  uid        Int                  @unique
+  vendor     String
+  createDate DateTime             @db.Date
+  status     PheripheralDevStatus
+  gatewaysId Int?
+  gateway    Gateways?            @relation(fields: [gatewaysId], references: [id], onDelete: Cascade)
+}
+
+model Gateways {
+  id             Int              @id @default(autoincrement())
+  serial         String           @unique
+  name           String
+  ipv4           String           @unique
+  PheripheralDev PheripheralDev[]
+}
+
+enum PheripheralDevStatus {
+  ONLINE
+  OFFLINE
+}

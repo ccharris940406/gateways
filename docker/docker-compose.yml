@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: gateways_db
+      POSTGRES_USER: gateways_user
+      POSTGRES_HOST_AUTH_METHOD: trust
