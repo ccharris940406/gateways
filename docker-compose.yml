@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+  myapp:
+    build:
+      context: . 
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_NAME=gateways_db
+      - DB_PASSWORD=qwer1234
+      - DB_USER=gateways_user
+      - DB_HOST=db
+  db:
+    image: postgres:13
+    environment:
+      - POSTGRES_DB=gateways_db
+      - POSTGRES_USER=gateways_user
+      - POSTGRES_PASSWORD=qwer1234
