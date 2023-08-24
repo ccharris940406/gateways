@@ -1,7 +1,24 @@
-import { NextResponse } from "next/server";
 import { Gateway, GatewayResponse } from "../types/gateways";
 import { prisma } from "../utils/prismaClient";
 import { validateIvp4 } from "../utils/validations";
+
+async function getAGateway(id: number): Promise<GatewayResponse> {
+  try {
+    const gateway = await prisma.gateways.findUnique({
+      where: {
+        id: id,
+      },
+      include: {
+        PheripheralDev: true,
+      },
+    });
+
+    if (!gateway) return { error: { error: "No gateway found" } };
+    return { gatewayData: gateway };
+  } catch (e) {
+    return { error: { error: "Error getting a gateway" } };
+  }
+}
 
 async function getGateways() {
   const gateways = await prisma.gateways.findMany({
@@ -43,4 +60,4 @@ async function deleteGateway(id: number) {
   }
 }
 
-export { getGateways, createGateway, deleteGateway };
+export { getGateways, createGateway, deleteGateway, getAGateway };

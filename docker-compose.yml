@@ -3,10 +3,10 @@ version: "3"
 services:
   myapp:
     build:
-      context: . 
+      context: .
     ports:
       - "3000:3000"
-    depends_on:
+    links:
       - db
     environment:
       - DB_NAME=gateways_db

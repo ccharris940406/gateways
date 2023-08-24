@@ -1,4 +1,4 @@
-import { prisma } from "@/app/utils/prismaClient";
+import { getAGateway } from "@/app/services/gateways";
 import { NextResponse } from "next/server";
 
 type id = {
@@ -7,13 +7,9 @@ type id = {
 
 export async function GET(req: Request, { params }: { params: id }) {
   const id: number = +params.id;
-  const gateway = await prisma.gateways.findUnique({
-    where: {
-      id: id,
-    },
-    include: {
-      PheripheralDev: true,
-    },
-  });
-  return NextResponse.json(gateway);
+  const { gatewayData, error } = await getAGateway(id);
+  if (error) {
+    return NextResponse.json(error, { status: 404 });
+  }
+  return NextResponse.json(gatewayData, { status: 200 });
 }

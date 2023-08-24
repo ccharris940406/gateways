@@ -6,10 +6,11 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### Database conection
 
-It use PostgresSQl database
+It uses PostgresSQl database, in file .env.test you have a example to configure database connection.
 
 ```bash
 npx prisma migrate dev
+npx prisma db pull
 
 ```
 
@@ -35,6 +36,31 @@ npm run dev
 yarn dev
 # or
 pnpm dev
+```
+
+### Docker
+
+You can start the serice using Docker, the file docker-compose.yml has an example.
+
+```bash
+docker compose up -d
+
+```
+
+After the container start you have to configure the database.
+
+```bash
+docker exec <app container> npx prisma migrate dev
+docker exec <app container> npx prisma db pull
+
+```
+
+#### Run testing in docker
+
+To run the tests in docker container.
+
+```bash
+docker exec <app container> npm run test
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -90,3 +116,71 @@ While implementing your solution **please take care of the following requirement
 - Your project must have a README file with build/run/test instructions (use DB that can be run locally, e.g. in-memory, via container);
 - Unit tests;
 - Use a framework of your choice, but popular, up-to-date, and long-term support versions are recommended.
+
+## Api documentation
+
+### Gateways end points
+
+**@/api/gateways**
+
+#### Get all gateways
+
+```bash
+curl --location 'http://<host>:<port>/api/gateways'
+```
+
+For get a gateway you have to give the gateway's id
+
+```bash
+curl --location 'http://<host>:<port>/api/gateways/<id>'
+```
+
+#### Create a gateway
+
+```bash
+curl --location 'http://<host>:<port>/api/gateways' \
+--header 'Content-Type: application/json' \
+--data '{
+    "serial": <serial>,
+    "name": <name>,
+    "ipv4": <ip number>
+}'
+```
+
+### Pheripheral devs end points
+
+**@/api/pheripheral**
+
+#### Create a pheripheral dev
+
+```bash
+curl --location 'http://<host>:<port>/api/pheripheral' \
+--header 'Content-Type: application/json' \
+--data '{
+    "uid":<uid>,
+    "vendor": <vendor name>,
+    "status": <"ONLINE/OFFLINE">,
+    "createDate": <YYYY-MM-DDT00:00:00.000Z>,
+    "gatewayId": <gateway id>
+}'
+```
+
+#### Update a pheripheral
+
+```bash
+curl --location --request PUT 'http://<host>:<port>/api/pheripheral/<pheripheral id>,' \
+--header 'Content-Type: application/json' \
+--data '{
+    "gatewayId": <gatheway id>
+}'
+```
+
+You can remove pheripheral dev from a gateway by passing null to gate:
+
+```bash
+curl --location --request PUT 'http://<host>:<port>/api/pheripheral/<pheripheral id>,' \
+--header 'Content-Type: application/json' \
+--data '{
+    "gatewayId": null
+}'
+```
